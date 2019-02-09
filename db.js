@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb+srv://antonwy:bo5WD4banmwiyPxk@chatdb-noqrj.mongodb.net/test?retryWrites=true')
+const username = process.env.DB_USERNAME;
+const password = process.env.DB_PASSWORD;
+
+mongoose.connect(`mongodb+srv://${username}:${password}@chatdb-noqrj.mongodb.net/test?retryWrites=true`)
 
 var db = mongoose.connection;
 db.on('error', (err) => {
