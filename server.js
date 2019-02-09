@@ -2,6 +2,7 @@ const express = require('express')
 const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
+const path = require('path');
 
 const cors = require('cors')
 
@@ -16,12 +17,9 @@ app.use(cors({
     exposedHeaders: 'x-auth',
 }));
 
-app.get('/', (req, res) => {
-    res.send("Chat server!");
-});
+app.use(express.static(path.join(__dirname, 'build')));
 
 app.use('/api/', api)
-
 
 io.on('connection', (socket) => {
     console.log("New connection!");
@@ -42,8 +40,11 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log("User disconnected.")
     })
-
 })
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'build/index.html'));
+});
 
 const port = process.env.PORT || 5000;
 
