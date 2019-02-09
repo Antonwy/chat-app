@@ -35,7 +35,7 @@ router.post('/register', (req, res) => {
     }).then(token => {
         res.header('x-auth', token).send(user);
     }).catch(e => {
-        if(err.code === 11000) {
+        if(e.code === 11000) {
             res.status(400).send();
         }else {
             res.status(404).send();
